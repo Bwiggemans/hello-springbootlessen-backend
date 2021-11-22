@@ -58,9 +58,9 @@ public class BookController {
 
         return ResponseEntity.created(location).build();
     }
-    @PatchMapping(value = "/books/{id}")
-    public ResponseEntity<Object> partialBook(@PathVariable int id, @RequestBody Book book) {
-        Book existingBook = books.get(id);
+    @PutMapping(value = "/books/{id}")
+    public ResponseEntity<Object> updateBook(@PathVariable int id, @RequestBody Book book) {
+        Book existingBook = bookRepository.findById(id).orElse(null);
         if (!book.getTitle().isEmpty()){
             existingBook.setTitle(book.getTitle());
         }
@@ -70,7 +70,24 @@ public class BookController {
         if (!book.getIsbn().isEmpty()){
             existingBook.setIsbn(book.getIsbn());
         }
-        books.set(id, existingBook);
+        bookRepository.save(existingBook);
+
+        return ResponseEntity.noContent().build();
+    }
+
+    @PatchMapping(value = "/books/{id}")
+    public ResponseEntity<Object> partialupdateBook(@PathVariable int id, @RequestBody Book book) {
+        Book existingBook = bookRepository.findById(id).orElse(null);
+        if (!book.getTitle().isEmpty()){
+            existingBook.setTitle(book.getTitle());
+        }
+        if (!book.getAuthor().isEmpty()){
+            existingBook.setAuthor(book.getAuthor());
+        }
+        if (!book.getIsbn().isEmpty()){
+            existingBook.setIsbn(book.getIsbn());
+        }
+        bookRepository.save(existingBook);
         return ResponseEntity.noContent().build();
     }
 }
