@@ -15,23 +15,6 @@ import java.util.List;
 @RestController
 public class BookController {
 
-    //Attributen
-    private List<Book> books = new ArrayList<>();
-
-    //Constructor
-    public BookController() {
-        Book boek1 = new Book();
-        boek1.setTitle("Harry Potter");
-        boek1.setAuthor("Rowling");
-        boek1.setIsbn("2355487756654844");
-        books.add(boek1);
-
-        Book boek2 = new Book();
-        boek2.setTitle("Harry Potter, deel 2");
-        boek2.setAuthor("Rowling");
-        boek2.setIsbn("2355487756658214");
-        books.add(boek2);
-    }
     @Autowired
     private BookRepository bookRepository;
 
