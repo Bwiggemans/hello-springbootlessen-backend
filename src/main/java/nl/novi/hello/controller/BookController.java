@@ -78,16 +78,18 @@ public class BookController {
     @PatchMapping(value = "/books/{id}")
     public ResponseEntity<Object> partialupdateBook(@PathVariable int id, @RequestBody Book book) {
         Book existingBook = bookRepository.findById(id).orElse(null);
-        if (!book.getTitle().isEmpty()){
+
+        if (!(book.getTitle()==null) && !book.getTitle().isEmpty()){
             existingBook.setTitle(book.getTitle());
         }
-        if (!book.getAuthor().isEmpty()){
+        if (!(book.getAuthor()==null) && !book.getAuthor().isEmpty()){
             existingBook.setAuthor(book.getAuthor());
         }
-        if (!book.getIsbn().isEmpty()){
+        if (!(book.getIsbn()==null) && !book.getIsbn().isEmpty()){
             existingBook.setIsbn(book.getIsbn());
         }
         bookRepository.save(existingBook);
+
         return ResponseEntity.noContent().build();
     }
 }
