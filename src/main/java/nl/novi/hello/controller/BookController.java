@@ -51,18 +51,12 @@ public class BookController {
     }
     @PostMapping(value = "/books")
     public ResponseEntity<Object> addBook(@RequestBody Book book) {
-        bookRepository.save(book); // dit books.add(book); in geval van private List<Book> books = new ArrayList<>();
-        int newId = books.size() - 1;
+        Book newBook = bookRepository.save(book);
+        int newId = newBook.getId();
 
-        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
-                .buildAndExpand(newId).toUri();
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(newId).toUri();
 
         return ResponseEntity.created(location).build();
-    }
-    @PutMapping(value = "/books/{id}")
-    public ResponseEntity<Object> updateBook(@PathVariable int id, @RequestBody Book book) {
-        books.set(id, book);
-        return ResponseEntity.noContent().build();
     }
     @PatchMapping(value = "/books/{id}")
     public ResponseEntity<Object> partialBook(@PathVariable int id, @RequestBody Book book) {
