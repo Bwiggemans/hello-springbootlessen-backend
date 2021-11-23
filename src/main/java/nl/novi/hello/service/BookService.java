@@ -5,6 +5,8 @@ import nl.novi.hello.repository.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class BookService {
 
@@ -16,7 +18,15 @@ public class BookService {
     }
 
     public Book getBook(int id){
-        return bookRepository.findById(id).orElse(null);
+        Optional<Book> optionalBook = bookRepository.findById(id);
+
+        if (optionalBook.isPresent()){
+            return optionalBook.get();
+        }
+        else{
+            //exception maken
+            throw new RuntimeException("ID does not exist!!!");
+        }
     }
 
     public void deleteBook(int id){
