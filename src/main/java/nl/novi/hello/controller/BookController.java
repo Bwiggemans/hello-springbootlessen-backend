@@ -1,7 +1,7 @@
 package nl.novi.hello.controller;
 
 import nl.novi.hello.model.Book;
-import nl.novi.hello.repository.BookRepository;
+import nl.novi.hello.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,26 +16,25 @@ import java.util.List;
 public class BookController {
 
     @Autowired
-    private BookRepository bookRepository;
+    private BookService bookService;
 
     @GetMapping(value = "/books")
     public ResponseEntity<Object> getBooks(){
-        return ResponseEntity.ok(bookRepository.findAll()); //Jackson zit hiertussen vertaling object => JSON
+        return ResponseEntity.ok(bookService.getBooks()); //Jackson zit hiertussen vertaling object => JSON
     }
     @GetMapping(value = "/books/{id}")
     public ResponseEntity<Object> getBook(@PathVariable int id){
-        return ResponseEntity.ok(bookRepository.findAllById(id)); //Jackson zit hiertussen vertaling object => JSON
+        return ResponseEntity.ok(bookService.getBook(id)); //Jackson zit hiertussen vertaling object => JSON
     }
     @DeleteMapping(value = "/books/{id}")
     public ResponseEntity<Object> deleteBook(@PathVariable int id) {
         //books.remove(id); deze regel gebruiken in geval => private List<Book> books = new ArrayList<>();
-        bookRepository.deleteById(id); // Postmen code verwijderen uit postgreSQL
+        bookService.deleteBook(id); // Postmen code verwijderen uit postgreSQL
         return ResponseEntity.noContent().build();
     }
     @PostMapping(value = "/books")
     public ResponseEntity<Object> addBook(@RequestBody Book book) {
-        Book newBook = bookRepository.save(book);
-        int newId = newBook.getId();
+        int newId = bookService.addBook(book);
 
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(newId).toUri();
 
@@ -43,35 +42,14 @@ public class BookController {
     }
     @PutMapping(value = "/books/{id}")
     public ResponseEntity<Object> updateBook(@PathVariable int id, @RequestBody Book book) {
-        Book existingBook = bookRepository.findById(id).orElse(null);
-        if (!book.getTitle().isEmpty()){
-            existingBook.setTitle(book.getTitle());
-        }
-        if (!book.getAuthor().isEmpty()){
-            existingBook.setAuthor(book.getAuthor());
-        }
-        if (!book.getIsbn().isEmpty()){
-            existingBook.setIsbn(book.getIsbn());
-        }
-        bookRepository.save(existingBook);
+        bookService.updateBook(id, book);
 
         return ResponseEntity.noContent().build();
     }
 
     @PatchMapping(value = "/books/{id}")
     public ResponseEntity<Object> partialupdateBook(@PathVariable int id, @RequestBody Book book) {
-        Book existingBook = bookRepository.findById(id).orElse(null);
-
-        if (!(book.getTitle()==null) && !book.getTitle().isEmpty()){
-            existingBook.setTitle(book.getTitle());
-        }
-        if (!(book.getAuthor()==null) && !book.getAuthor().isEmpty()){
-            existingBook.setAuthor(book.getAuthor());
-        }
-        if (!(book.getIsbn()==null) && !book.getIsbn().isEmpty()){
-            existingBook.setIsbn(book.getIsbn());
-        }
-        bookRepository.save(existingBook);
+        bookService.partialUpdateBook(id, book);
 
         return ResponseEntity.noContent().build();
     }
