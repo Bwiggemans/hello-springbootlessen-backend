@@ -1,5 +1,6 @@
 package nl.novi.hello.service;
 
+import nl.novi.hello.exception.RecordNotFoundException;
 import nl.novi.hello.model.Book;
 import nl.novi.hello.repository.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +26,7 @@ public class BookService {
         }
         else{
             //exception maken
-            throw new RuntimeException("ID does not exist!!!");
+            throw new RecordNotFoundException("ID does not exist!!!");
         }
     }
 
