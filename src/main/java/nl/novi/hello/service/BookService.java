@@ -26,7 +26,6 @@ public class BookService {
     public int addBook(Book book){
         Book newBook = bookRepository.save(book);
         return newBook.getId();
-
     }
 
     public void updateBook(int id, Book book){
@@ -41,7 +40,6 @@ public class BookService {
             existingBook.setIsbn(book.getIsbn());
         }
         bookRepository.save(existingBook);
-
     }
 
     public void partialUpdateBook(int id, Book book){

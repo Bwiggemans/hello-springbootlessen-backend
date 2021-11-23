@@ -37,20 +37,17 @@ public class BookController {
         int newId = bookService.addBook(book);
 
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(newId).toUri();
-
         return ResponseEntity.created(location).build();
     }
     @PutMapping(value = "/books/{id}")
     public ResponseEntity<Object> updateBook(@PathVariable int id, @RequestBody Book book) {
         bookService.updateBook(id, book);
-
         return ResponseEntity.noContent().build();
     }
 
     @PatchMapping(value = "/books/{id}")
     public ResponseEntity<Object> partialupdateBook(@PathVariable int id, @RequestBody Book book) {
         bookService.partialUpdateBook(id, book);
-
         return ResponseEntity.noContent().build();
     }
 }
