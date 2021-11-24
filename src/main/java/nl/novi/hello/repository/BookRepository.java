@@ -14,4 +14,8 @@ public interface BookRepository extends JpaRepository<Book, Integer> {
     @Query("SELECT * FROM books b WHERE b.title LIKE %:s%")
     Iterable<Book> searchByNameLike(@Param("s") String s);
  */
+//  Zoeken met gedeelte String in attribuut title:
+    @Query(value = "SELECT * FROM books b WHERE b.title LIKE %:s%", nativeQuery = true) // using SQL
+    Iterable<Book> searchByTitleLike(@Param("s") String s);
+
 }
