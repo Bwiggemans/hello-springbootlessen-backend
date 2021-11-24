@@ -14,8 +14,12 @@ public class BookService {
     @Autowired
     private BookRepository bookRepository;
 
-    public Iterable<Book> getBooks(){
-        return bookRepository.findAll();
+    public Iterable<Book> getBooks(String title){
+        if (title.isEmpty()){
+            return bookRepository.findAll();
+        }else{
+            return bookRepository.findAllByTitleContainingIgnoreCase(title);
+        }
     }
 
     public Book getBook(int id){
