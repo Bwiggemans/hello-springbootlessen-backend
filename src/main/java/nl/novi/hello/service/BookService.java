@@ -1,11 +1,13 @@
 package nl.novi.hello.service;
 
+import nl.novi.hello.exception.BadRequestException;
 import nl.novi.hello.exception.RecordNotFoundException;
 import nl.novi.hello.model.Book;
 import nl.novi.hello.repository.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -35,10 +37,21 @@ public class BookService {
     }
 
     public void deleteBook(int id){
-        bookRepository.deleteById(id);
+        if (bookRepository.existsById(id)) {
+            bookRepository.deleteById(id);
+        }
+        else {
+            throw new RecordNotFoundException("ID does not exist!!!");
+        }
     }
 
-    public int addBook(Book book){
+    public int addBook(Book book) throws BadRequestException {
+        String isbn = book.getIsbn();
+        List<Book> books = (List<Book>)bookRepository.findAllByIsbn(isbn);
+        if (books.size() > 0) {
+            throw new BadRequestException("Isbn already exists!!!");
+        }
+
         Book newBook = bookRepository.save(book);
         return newBook.getId();
     }

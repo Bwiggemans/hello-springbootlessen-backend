@@ -1,5 +1,6 @@
 package nl.novi.hello.controller;
 
+import nl.novi.hello.exception.BadRequestException;
 import nl.novi.hello.model.Book;
 import nl.novi.hello.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +34,7 @@ public class BookController {
         return ResponseEntity.noContent().build();
     }
     @PostMapping(value = "/books")
-    public ResponseEntity<Object> addBook(@RequestBody Book book) {
+    public ResponseEntity<Object> addBook(@RequestBody Book book) throws BadRequestException {
         int newId = bookService.addBook(book);
 
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(newId).toUri();
