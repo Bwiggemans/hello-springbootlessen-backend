@@ -19,6 +19,9 @@ public class PersonService {
     @Autowired
     private PersonRepository personRepository;
 
+    @Autowired
+    private BookRepository bookRepository;
+
     public Iterable<Person> getPersons(String title){
             return personRepository.findAll();
     }
@@ -47,6 +50,36 @@ public class PersonService {
     public int addPerson(Person person) throws BadRequestException {
         Person newPerson = personRepository.save(person);
         return newPerson.getId();
+    }
+    public List<Book> getPersonBooks(int id){
+        Optional<Person> optionalPerson = personRepository.findById(id);
+
+        if (optionalPerson.isPresent()){
+            Person person = optionalPerson.get();
+            return person.getBooks();
+        }
+        else{
+            //exception maken
+            throw new RecordNotFoundException("ID does not exist!!!");
+        }
+    }
+
+    public void addPersonBook(int id, Book book){
+        Optional<Person> optionalPerson = personRepository.findById(id);
+
+        if (optionalPerson.isPresent()){
+            Person person = optionalPerson.get();
+            List<Book> books = person.getBooks();
+
+            bookRepository.save(book);
+
+            books.add(book);
+            personRepository.save(person);
+        }
+        else{
+            //exception maken
+            throw new RecordNotFoundException("ID does not exist!!!");
+        }
     }
 
 }

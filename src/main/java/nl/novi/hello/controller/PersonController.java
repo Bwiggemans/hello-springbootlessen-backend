@@ -1,6 +1,7 @@
 package nl.novi.hello.controller;
 
 import nl.novi.hello.exception.BadRequestException;
+import nl.novi.hello.model.Book;
 import nl.novi.hello.model.Person;
 import nl.novi.hello.service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,5 +39,13 @@ public class PersonController {
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(newId).toUri();
         return ResponseEntity.created(location).build();
     }
-
+    @GetMapping(value = "/persons/{id}/books")
+    public ResponseEntity<Object> getPersonBooks(@PathVariable int id){
+        return ResponseEntity.ok(personService.getPersonBooks(id)); //Jackson zit hiertussen vertaling object => JSON
+    }
+    @PostMapping(value = "/persons/{id}/books")
+    public ResponseEntity<Object> addPersonBook(@PathVariable int id, @RequestBody Book book){
+        personService.addPersonBook(id, book);
+        return ResponseEntity.created(null).build(); //Jackson zit hiertussen vertaling object => JSON
+    }
 }
