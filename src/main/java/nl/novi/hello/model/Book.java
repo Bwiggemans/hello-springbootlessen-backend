@@ -1,5 +1,8 @@
 package nl.novi.hello.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 
 @Entity
@@ -13,6 +16,11 @@ public class Book {
     private String title;
     private String author;
     private String isbn;
+
+    @JsonIgnoreProperties("books")
+    @ManyToOne
+    @JoinColumn(name = "person_id", referencedColumnName = "id")
+    private Person owner;
 
     //Constructor is niet nodig
 
@@ -40,5 +48,11 @@ public class Book {
     }
     public void setIsbn(String isbn) {
         this.isbn = isbn;
+    }
+    public Person getOwner() {
+        return owner;
+    }
+    public void setOwner(Person owner) {
+        this.owner = owner;
     }
 }
