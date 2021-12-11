@@ -46,7 +46,7 @@ public class BookService {
         }
     }
 
-    public int addBook(BookRequestDto bookRequestDto) throws BadRequestException {
+    public int addBook(BookRequestDto bookRequestDto){
 
 
         String isbn = bookRequestDto.getIsbn();
