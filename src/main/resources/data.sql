@@ -3,6 +3,12 @@ VALUES
 ('user', 'password', true, 'dummy@novi.nl'),
 ('admin', 'password', true, 'dummy@novi.nl');
 
+INSERT INTO authorities (username, authority)
+VALUES
+('user', 'ROLE_USER'),
+('admin', 'ROLE_USER'),
+('admin', 'ROLE_ADMIN');
+
 INSERT INTO persons (name)
 VALUES
 ('Hans'),
