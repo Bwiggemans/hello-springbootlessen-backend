@@ -1,7 +1,7 @@
 INSERT INTO users (username, password, enabled, email)
 VALUES
-('user', 'password', true, 'dummy@novi.nl'),
-('admin', 'password', true, 'dummy@novi.nl');
+('user', '$2y$10$WNKmdP9CfbjrheVhvx3ON.ktoFYcYfsqg6OLUFiQfxzeDHaqrb8E6', true, 'dummy@novi.nl'),
+('admin', '$2y$10$WNKmdP9CfbjrheVhvx3ON.ktoFYcYfsqg6OLUFiQfxzeDHaqrb8E6', true, 'dummy@novi.nl');
 
 INSERT INTO authorities (username, authority)
 VALUES
