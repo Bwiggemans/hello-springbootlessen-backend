@@ -1,3 +1,8 @@
+INSERT INTO users (username, password, enabled, email)
+VALUES
+('user', 'password', true, 'dummy@novi.nl'),
+('admin', 'password', true, 'dummy@novi.nl');
+
 INSERT INTO persons (name)
 VALUES
 ('Hans'),

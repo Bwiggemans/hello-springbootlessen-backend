@@ -2,6 +2,7 @@ package nl.novi.hello.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -32,7 +33,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                 .antMatchers("/books/**").hasRole("USER")
-                .antMatchers("/persons/**").hasRole("ADMIN")
+                .antMatchers("/persons/**").hasAnyRole("USER", "ADMIN")
+                .antMatchers(HttpMethod.GET, "hello").authenticated()
+                .antMatchers(HttpMethod.GET, "goodbye").permitAll()
                 .anyRequest().permitAll()
                 .and()
                 .csrf().disable()
