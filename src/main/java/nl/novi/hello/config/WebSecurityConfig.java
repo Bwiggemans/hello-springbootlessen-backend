@@ -13,6 +13,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.sql.DataSource;
 
+import static org.springframework.http.HttpMethod.PATCH;
+
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
@@ -48,8 +50,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .httpBasic()
                 .and()
                 .authorizeRequests()
+                .antMatchers(PATCH,"/users/{^[\\w]$}/password").authenticated()
+                .antMatchers("/users/**").hasRole("ADMIN")
                 .antMatchers("/books/**").hasRole("USER")
-                .antMatchers("/persons/**").hasAnyRole("USER", "ADMIN")
+                .antMatchers("/persons/**").hasRole("USER")
                 .antMatchers(HttpMethod.GET, "hello").authenticated()
                 .antMatchers(HttpMethod.GET, "goodbye").permitAll()
                 .anyRequest().permitAll()
