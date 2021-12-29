@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>AJAX with XMLHttpRequest</title>
     <script language="JavaScript">
-    function loadData(url) {
+    function loadData(url, username, password) {
         let xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function() {
             if (this.readyState == 4) {
@@ -12,12 +12,17 @@
                 if (this.status == 200) {
                     document.getElementById("data").innerHTML = this.responseText;
                 }
+                else {
+                    document.getElementById("data").innerHTML = "";
+                }
             }
         };
         xhttp.onerror = function() {
             document.getElementById("status").innerHTML = "Woops, there was an error making the request.";
         };
         xhttp.open("GET", url, true);
+//        xhttp.setRequestHeader("Authorization", "Basic dXNlcjpwYXNzd29yZA==");
+        xhttp.setRequestHeader("Authorization", "Basic " + btoa(username + ":" + password));
         xhttp.send();
     }
     </script>
@@ -42,18 +47,21 @@
     </style>
 </head>
 <body>
-    <p>
-        <label>URL</label>
-        <input type="text" id="url" value="http://localhost:8081/books">
-        <input type="button" value="Get data" onclick="loadData(url.value);">
-    </p>
-    <p>
-        <label>Status Code</label>
-        <pre id="status"></pre>
-    </p>
-    <p>
-        <label>Body</label>
-        <pre id="data"></pre>
-    </p>
+<p>
+    <label>URL</label>
+    <input type="text" id="url" name="url" value="http://localhost:8081/books"><br>
+    <label>Http Basic Authentication:</label>
+    <input type="text" id="username" name="username" value="user">
+    <input type="text" id="password" name="password" value="password"><br>
+    <input type="button" value="Get data" onclick="loadData(url.value, username.value, password.value);">
+</p>
+<p>
+    <label>Status Code</label>
+<pre id="status"></pre>
+</p>
+<p>
+    <label>Body</label>
+<pre id="data"></pre>
+</p>
 </body>
 </html>

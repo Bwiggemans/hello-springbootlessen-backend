@@ -8,6 +8,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -53,12 +54,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(PATCH,"/users/{^[\\w]$}/password").authenticated()
                 .antMatchers("/users/**").hasRole("ADMIN")
                 .antMatchers("/books/**").hasRole("USER")
-                .antMatchers("/persons/**").hasRole("USER")
+                .antMatchers("/persons/**").hasAnyRole("USER")
                 .antMatchers(HttpMethod.GET, "hello").authenticated()
                 .antMatchers(HttpMethod.GET, "goodbye").permitAll()
                 .anyRequest().permitAll()
                 .and()
+                .cors()
+                .and()
                 .csrf().disable()
-                .formLogin().disable();
+                .formLogin().disable()
+                .sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+
     }
 }
