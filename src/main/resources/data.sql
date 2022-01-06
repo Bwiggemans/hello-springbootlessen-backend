@@ -24,6 +24,6 @@ VALUES
 ('Harry Potter en de Vuurbeker', 'J.K. Rowling', '9076174199', 4),
 ('Harry Potter en de Orde van de Feniks', 'J.K. Rowling', '906169700X', 2),
 ('Harry Potter en de Halfbloed Prins', 'J.K. Rowling', '9061697662', 4),
-('Harry Potter en de Relieken van de Dood', 'J.K. Rowling', '9789061698326', 1);
+('Sweinsteingit add . en de Relieken van de Dood', 'J.K. Rowling', '9789061698326', 1);
 
 
